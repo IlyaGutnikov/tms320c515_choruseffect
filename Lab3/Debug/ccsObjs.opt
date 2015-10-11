@@ -1,0 +1,1 @@
+"./C5515.obj" "./aic3204.obj" "./i2c.obj" "./main.obj" "../C5515.cmd" -l"libc.a" 
