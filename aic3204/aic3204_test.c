@@ -69,36 +69,21 @@ Int16 aic3204_test( )
     SYS_EXBUSSEL &= ~0x7000;   //
     SYS_EXBUSSEL |=  0x1000;   // Configure Parallel Port for I2S2
     /* Configure Serial Port */
-	SYS_EXBUSSEL &= ~0x0C00;   // 
+	SYS_EXBUSSEL &= ~0x0C00;   //
 	SYS_EXBUSSEL |=  0x0400;   // Serial Port mode 1 (I2S1 and GP[11:10]).
 	EVM5515_GPIO_init();
 	EVM5515_GPIO_setDirection(GPIO10, GPIO_OUT);
 	EVM5515_GPIO_setOutput( GPIO10, 1 );    // Take AIC3201 chip out of reset
 	EVM5515_I2C_init( );                    // Initialize I2C
     /* Codec tests */
-    printf( " -> 1 KHz Tone on Headphone.\n" );
-    if ( aic3204_tone_headphone( ) )
-        return 1;
-        
-    EVM5515_wait( 100 );  // Wait 
-    printf( " -> 1 KHz Tone on Stereo OUT.\n" );
-    if ( aic3204_tone_stereo_out( ) )
-        return 1;
-   
-    EVM5515_wait( 100 );  // Wait    
-    printf( "<-> Audio Loopback from Stereo IN 1 --> to HP\n" );
-    if ( aic3204_loop_stereo_in1( ) )
-        return 1;
-        
-    EVM5515_wait( 100 );  // Wait    
-    printf( "<-> Audio Loopback from Stereo IN 2 --> to Stereo OUT\n" );
-    if ( aic3204_loop_stereo_in2( ) )
-        return 1;
-    
-    EVM5515_wait( 100 );  // Wait    
+
+
     printf( "<-> Microphone --> to HP\n" );
     if ( aic3204_loop_mic_in( ) )
         return 1;
 	EVM5515_GPIO_setOutput( GPIO26, 0 );
+
+
+
     return 0;
 }

@@ -15,7 +15,7 @@ $(GEN_CMDS__FLAG) \
 "./aic3204_loop_stereo_in2.obj" \
 "./aic3204_loop_stereo_in1.obj" \
 "./aic3204_loop_mic_in.obj" \
-"../lnkx.cmd" \
+"../C5515.cmd" \
 -l"evm5515bsl.lib" \
 -l"rts55x_eh.lib" \
 
@@ -122,7 +122,7 @@ all: aic3204.out
 aic3204.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C5500 Linker'
-	"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -g --diag_warning=225 --ptrdiff_size=32 --memory_model=large -z -m"aic3204.map" --warn_sections -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include" -i"../../../lib" --reread_libs --xml_link_info="aic3204_linkInfo.xml" --rom_model -o "aic3204.out" $(ORDERED_OBJS)
+	"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -g --diag_warning=225 --ptrdiff_size=32 --memory_model=large -z -m"aic3204.map" --warn_sections -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include" -i"../../../lib" -i"E:/evm5515_v1/lib" --reread_libs --xml_link_info="aic3204_linkInfo.xml" --rom_model -o "aic3204.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

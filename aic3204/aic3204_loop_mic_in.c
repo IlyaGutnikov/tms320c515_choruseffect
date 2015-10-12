@@ -94,7 +94,7 @@ Int16 aic3204_loop_mic_in( )
     /* Play Tone */
     for( i = 0 ; i < 5 ; i++ )
     {
-        for ( j = 0 ; j < 1000 ; j++ )
+        for ( j = 0 ; j < 5000 ; j++ )
         {
             for ( sample = 0 ; sample < 48 ; sample++ )
             {

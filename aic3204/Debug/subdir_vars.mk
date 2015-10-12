@@ -4,7 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-../lnkx.cmd 
+../C5515.cmd 
 
 C_SRCS += \
 ../aic3204_loop_mic_in.c \
