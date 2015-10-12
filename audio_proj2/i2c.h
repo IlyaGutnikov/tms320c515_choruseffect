@@ -11,7 +11,7 @@
 #ifndef I2C_
 #define I2C_
 
-#include "evm5515.h"
+#include "C5515.h"
 
 #define MDR_STT			0x2000
 #define MDR_TRX			0x0200

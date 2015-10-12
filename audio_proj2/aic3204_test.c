@@ -9,9 +9,9 @@
  */
 
 #define AIC3204_I2C_ADDR 0x18
-#include "evm5515.h"
-#include "evm5515_gpio.h"
-#include "evm5515_i2c.h"
+#include "C5515.h"
+#include "gpio.h"
+#include "i2c.h"
 #include "stdio.h"
 
 extern Int16 aic3204_tone_headphone( );

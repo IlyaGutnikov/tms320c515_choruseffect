@@ -7,7 +7,7 @@
  *  I2C implementation
  *
  */
-#include "evm5515_i2c.h"
+#include "i2c.h"
 
 Int32 i2c_timeout = 0x0fff;
 

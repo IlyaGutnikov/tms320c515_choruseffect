@@ -9,15 +9,12 @@ CG_TOOL_ROOT := E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./main.obj" \
-"./evm5515_i2c.obj" \
-"./evm5515_gpio.obj" \
-"./evm5515.obj" \
-"./aic3204_tone_stereo_out.obj" \
+"./i2c.obj" \
+"./gpio.obj" \
 "./aic3204_tone_headphone.obj" \
 "./aic3204_test.obj" \
-"./aic3204_loop_stereo_in2.obj" \
-"./aic3204_loop_stereo_in1.obj" \
 "./aic3204_loop_mic_in.obj" \
+"./C5515.obj" \
 "../C5515.cmd" \
 -l"libc.a" \
 
@@ -131,8 +128,8 @@ audio_proj2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C5500_EXECUTABLE_OUTPUTS__QUOTED) "audio_proj2.out"
-	-$(RM) "aic3204_loop_mic_in.pp" "aic3204_loop_stereo_in1.pp" "aic3204_loop_stereo_in2.pp" "aic3204_test.pp" "aic3204_tone_headphone.pp" "aic3204_tone_stereo_out.pp" "evm5515.pp" "evm5515_gpio.pp" "evm5515_i2c.pp" "main.pp" 
-	-$(RM) "aic3204_loop_mic_in.obj" "aic3204_loop_stereo_in1.obj" "aic3204_loop_stereo_in2.obj" "aic3204_test.obj" "aic3204_tone_headphone.obj" "aic3204_tone_stereo_out.obj" "evm5515.obj" "evm5515_gpio.obj" "evm5515_i2c.obj" "main.obj" 
+	-$(RM) "C5515.pp" "aic3204_loop_mic_in.pp" "aic3204_test.pp" "aic3204_tone_headphone.pp" "gpio.pp" "i2c.pp" "main.pp" 
+	-$(RM) "C5515.obj" "aic3204_loop_mic_in.obj" "aic3204_test.obj" "aic3204_tone_headphone.obj" "gpio.obj" "i2c.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -11,7 +11,7 @@
 #ifndef GPIO_
 #define GPIO_
 
-#include "evm5515.h"
+#include "C5515.h"
 
 #define GPIO_IN                 1
 #define GPIO_OUT                0

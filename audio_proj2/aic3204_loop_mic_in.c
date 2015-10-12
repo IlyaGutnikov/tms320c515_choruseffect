@@ -8,7 +8,7 @@
  *
  */
 #include "stdio.h"
-#include "evm5515.h"
+#include "C5515.h"
 extern Int16 AIC3204_rset( Uint16 regnum, Uint16 regval);
 #define Rcv 0x08
 #define Xmit 0x20
