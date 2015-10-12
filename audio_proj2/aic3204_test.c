@@ -15,9 +15,6 @@
 #include "stdio.h"
 
 extern Int16 aic3204_tone_headphone( );
-extern Int16 aic3204_tone_stereo_out( );
-extern Int16 aic3204_loop_stereo_in1( );
-extern Int16 aic3204_loop_stereo_in2( );
 extern Int16 aic3204_loop_mic_in( );
 /* ------------------------------------------------------------------------ *
  *                                                                          *
@@ -34,8 +31,8 @@ Int16 AIC3204_rget(  Uint16 regnum, Uint16* regval )
     cmd[0] = regnum & 0x007F;       // 7-bit Device Address
     cmd[1] = 0;
 
-    retcode |= EVM5515_I2C_write( AIC3204_I2C_ADDR, cmd, 1 );
-    retcode |= EVM5515_I2C_read( AIC3204_I2C_ADDR, cmd, 1 );
+    retcode |= I2C_write( AIC3204_I2C_ADDR, cmd, 1 );
+    retcode |= I2C_read( AIC3204_I2C_ADDR, cmd, 1 );
 
     *regval = cmd[0];
     EVM5515_wait( 10 );
@@ -55,7 +52,7 @@ Int16 AIC3204_rset( Uint16 regnum, Uint16 regval )
     cmd[0] = regnum & 0x007F;       // 7-bit Register Address
     cmd[1] = regval;                // 8-bit Register Data
 
-    return EVM5515_I2C_write( AIC3204_I2C_ADDR, cmd, 2 );
+    return I2C_write( AIC3204_I2C_ADDR, cmd, 2 );
 }
 
 /* ------------------------------------------------------------------------ *
@@ -74,7 +71,7 @@ Int16 aic3204_test( )
 	EVM5515_GPIO_init();
 	EVM5515_GPIO_setDirection(GPIO10, GPIO_OUT);
 	EVM5515_GPIO_setOutput( GPIO10, 1 );    // Take AIC3201 chip out of reset
-	EVM5515_I2C_init( );                    // Initialize I2C
+	I2C_init( );                    // Initialize I2C
     /* Codec tests */
 
 

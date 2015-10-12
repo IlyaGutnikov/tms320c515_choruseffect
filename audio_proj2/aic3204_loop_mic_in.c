@@ -91,7 +91,7 @@ Int16 aic3204_loop_mic_in( )
     I2S2_ICMR = 0x0028;    // Enable interrupts
     I2S2_CR   = 0x8012;    // 16-bit word, Master, enable I2C
     
-    /* Play Tone */
+    /* Play Tone */ //вот это надо кинуть в aic3204.c
     for( i = 0 ; i < 5 ; i++ )
     {
         for ( j = 0 ; j < 5000 ; j++ )

@@ -24,9 +24,9 @@
 /* ------------------------------------------------------------------------ *
  *  Prototypes                                                              *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_init ( );
-Int16 EVM5515_I2C_close( );
-Int16 EVM5515_I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len );
-Int16 EVM5515_I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len );
+Int16 I2C_init ( );
+Int16 I2C_close( );
+Int16 I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len );
+Int16 I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len );
 
 #endif

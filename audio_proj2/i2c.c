@@ -19,7 +19,7 @@ Int32 i2c_timeout = 0x0fff;
  *      The I2C clk is set to run at 20 KHz                                 *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_init( )
+Int16 I2C_init( )
 {
     I2C_MDR = 0x0400;             // Reset I2C
     I2C_PSC   = 15;               // Config prescaler for 100MHz
@@ -36,7 +36,7 @@ Int16 EVM5515_I2C_init( )
  *  _I2C_close( )                                                           *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_close( )
+Int16 I2C_close( )
 {
     I2C_MDR = 0;                      // Reset I2C
     return 0;
@@ -47,10 +47,10 @@ Int16 EVM5515_I2C_close( )
  *  _I2C_reset( )                                                           *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_reset( )
+Int16 I2C_reset( )
 {
-    EVM5515_I2C_close( );
-    EVM5515_I2C_init( );
+    I2C_close( );
+    I2C_init( );
     return 0;
 }
 
@@ -65,7 +65,7 @@ Int16 EVM5515_I2C_reset( )
  *      len         <- # of bytes to write                                  *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
+Int16 I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
 {
     Int16 timeout, i;
 
@@ -88,7 +88,7 @@ Int16 EVM5515_I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
             {
                 if ( timeout-- < 0  )
                 {
-                    EVM5515_I2C_reset( );
+                    I2C_reset( );
                     return -1;
                 }
             } while ( ( I2C_STR & STR_XRDY ) == 0 );// Wait for Tx Ready
@@ -116,7 +116,7 @@ Int16 EVM5515_I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
  *                 -1: FAIL Timeout                                         *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len )
+Int16 I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len )
 {
     Int32 timeout, i;
 
@@ -138,7 +138,7 @@ Int16 EVM5515_I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len )
         {
             if ( timeout-- < 0 )
             {
-                EVM5515_I2C_reset( );
+                I2C_reset( );
                 return -1;
             }
         } while ( ( I2C_STR & STR_RRDY ) == 0 );// Wait for Rx Ready

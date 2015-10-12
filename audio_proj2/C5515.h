@@ -87,22 +87,6 @@
 #define I2S2_W1_MSW_R      *(volatile ioport Uint16*)(0x2A2D)
 
 /* ------------------------------------------------------------------------ *
- *  UART Module                                                             *
- * ------------------------------------------------------------------------ */
-#define UART_RBR           *(volatile ioport Uint16*)(0x1B00)
-#define UART_THR           *(volatile ioport Uint16*)(0x1B00)
-#define UART_IER           *(volatile ioport Uint16*)(0x1B02)
-#define UART_IIR           *(volatile ioport Uint16*)(0x1B04)
-#define UART_FCR           *(volatile ioport Uint16*)(0x1B04)
-#define UART_LCR           *(volatile ioport Uint16*)(0x1B06)
-#define UART_MCR           *(volatile ioport Uint16*)(0x1B08)
-#define UART_LSR           *(volatile ioport Uint16*)(0x1B0A)
-#define UART_SCR           *(volatile ioport Uint16*)(0x1B0E)
-#define UART_DLL           *(volatile ioport Uint16*)(0x1B10)
-#define UART_DLH           *(volatile ioport Uint16*)(0x1B12)
-#define UART_PWREMU_MGMT   *(volatile ioport Uint16*)(0x1B18)
-
-/* ------------------------------------------------------------------------ *
  *  Prototypes                                                              *
  * ------------------------------------------------------------------------ */
 /* Board Initialization */

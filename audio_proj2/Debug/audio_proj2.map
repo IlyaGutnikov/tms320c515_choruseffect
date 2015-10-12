@@ -1,7 +1,7 @@
 ******************************************************************************
               TMS320C55x Linker PC v4.4.1                      
 ******************************************************************************
->> Linked Mon Oct 12 21:48:59 2015
+>> Linked Mon Oct 12 22:03:24 2015
 
 OUTPUT FILE NAME:   <audio_proj2.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00024811
@@ -165,11 +165,6 @@ ffffffff                .text
 00023654                _EVM5515_GPIO_init
 00023658                _EVM5515_GPIO_setDirection
 000236e3                _EVM5515_GPIO_setOutput
-00023a86                _EVM5515_I2C_close
-00023a67                _EVM5515_I2C_init
-00023b17                _EVM5515_I2C_read
-00023a8f                _EVM5515_I2C_reset
-00023a9d                _EVM5515_I2C_write
 0002460b                _EVM5515_init
 000245c5                _EVM5515_wait
 000245f9                _EVM5515_waitusec
@@ -182,6 +177,11 @@ ffffffff                .text
 00021c59                _HOSTtime
 00021bef                _HOSTunlink
 00021b62                _HOSTwrite
+00023a86                _I2C_close
+00023a67                _I2C_init
+00023b17                _I2C_read
+00023a8f                _I2C_reset
+00023a9d                _I2C_write
 0004fe00                _Reset
 000240dc                _TEST_execute
             00020000    __CIOBUF_
@@ -385,11 +385,11 @@ byte addr   word addr   name
 000237b8                _fputs
 000238ed                _puts
 0002391b                __mpyd
-00023a67                _EVM5515_I2C_init
-00023a86                _EVM5515_I2C_close
-00023a8f                _EVM5515_I2C_reset
-00023a9d                _EVM5515_I2C_write
-00023b17                _EVM5515_I2C_read
+00023a67                _I2C_init
+00023a86                _I2C_close
+00023a8f                _I2C_reset
+00023a9d                _I2C_write
+00023b17                _I2C_read
 00023b90                _setvbuf
 00023c76                __wrt_ok
 00023cf6                __rd_ok
