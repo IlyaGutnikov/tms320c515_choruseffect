@@ -50,9 +50,9 @@ void main(void) {
     I2S2_ICMR = 0x0028;    // Enable interrupts
     I2S2_CR   = 0x8012;    // 16-bit word, Master, enable I2C
 
-    aic3204_sin();
+  /*(  aic3204_sin();
 
-    /* Play Tone */
+
     for ( i = 0 ; i < 5 ; i++ )
     {
         for ( j = 0 ; j < 1000 ; j++ )
@@ -66,19 +66,60 @@ void main(void) {
                 I2S2_W1_LSW_W = 0;
             }
         }
-    }
+    }*/
 
 	// Режим «с микрофона на наушники»
 	aic3204_mic();
 
+	Int16 ouput_left[48];
+	Int16 ouput_right[48];
+	Int16 voices = 4;
+	Int16 accumulator = 0;
+	Int16 v = 0;
+	Int16 offset;
+	Int16 buffer = 0;
+
 	for (i = 0; i < 5; i++) {
-		for (j = 0; j < 5000; j++) {
+		for (j = 0; j < 1000; j++) {
 			for (sample = 0; sample < 48; sample++) {
 
 				/* Read Digital audio */
 				while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
 				left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
 				right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
+
+				//ouput_left[sample] = left / voices;
+				//ouput_right[sample] = right / voices;
+
+				ouput_left[sample] = left;
+				ouput_right[sample] = right;
+
+				//for (v = 1, accumulator = 0; v < voices; v++) {
+
+					/*offset_precise = 20 + 5*v + (10);
+					offset_precise = 0;
+					buffer = ouput_left[offset_precise];
+					buffer = ouput_right[offset_precise];
+					accumulator += buffer;
+					*/
+
+					//offset_precise = v*10;
+				//}
+
+				//ouput_left[sample] = accumulator / voices;
+				//ouput_right[sample] = accumulator / voices;
+
+				if (sample > 10) {
+
+				for (offset = 10; offset>0; offset--) {
+
+				left = (ouput_left[sample-offset]/2) + (ouput_left[sample]/2);
+				right = (ouput_right[sample-offset]/2) + (ouput_right[sample]/2);
+
+					}
+				}
+
+
 
 				/* Write Digital audio */
 				while ((Xmit & I2S2_IR) == 0); // Wait for receive interrupt to be pending
