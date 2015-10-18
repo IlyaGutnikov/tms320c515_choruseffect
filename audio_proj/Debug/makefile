@@ -10,8 +10,6 @@ ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./main.obj" \
 "./i2c.obj" \
-"./gpio.obj" \
-"./aic3204_tone_headphone.obj" \
 "./aic3204.obj" \
 "./C5515.obj" \
 "../C5515.cmd" \
@@ -114,21 +112,21 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: audio_proj2.out
+all: audio_proj.out
 
 # Tool invocations
-audio_proj2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+audio_proj.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C5500 Linker'
-	"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -v5515 --memory_model=large -g --define=c5515 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"audio_proj2.map" --stack_size=0x200 --heap_size=0x400 -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="audio_proj2_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "audio_proj2.out" $(ORDERED_OBJS)
+	"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -v5515 --memory_model=large -g --define=c5515 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"audio_proj.map" --stack_size=0x200 --heap_size=0x400 -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="audio_proj_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "audio_proj.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C5500_EXECUTABLE_OUTPUTS__QUOTED) "audio_proj2.out"
-	-$(RM) "C5515.pp" "aic3204.pp" "aic3204_tone_headphone.pp" "gpio.pp" "i2c.pp" "main.pp" 
-	-$(RM) "C5515.obj" "aic3204.obj" "aic3204_tone_headphone.obj" "gpio.obj" "i2c.obj" "main.obj" 
+	-$(RM) $(C5500_EXECUTABLE_OUTPUTS__QUOTED) "audio_proj.out"
+	-$(RM) "C5515.pp" "aic3204.pp" "i2c.pp" "main.pp" 
+	-$(RM) "C5515.obj" "aic3204.obj" "i2c.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

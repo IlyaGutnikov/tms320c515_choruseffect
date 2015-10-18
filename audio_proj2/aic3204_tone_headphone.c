@@ -9,6 +9,7 @@
  */
 #include "stdio.h"
 #include "C5515.h"
+#include "i2s.h"
 extern Int16 AIC3204_rset( Uint16 regnum, Uint16 regval);
 #define Xmit 0x20
 /* ------------------------------------------------------------------------ *

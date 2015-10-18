@@ -1,10 +1,10 @@
 ******************************************************************************
               TMS320C55x Linker PC v4.4.1                      
 ******************************************************************************
->> Linked Mon Oct 12 22:03:24 2015
+>> Linked Sun Oct 18 16:02:08 2015
 
 OUTPUT FILE NAME:   <audio_proj2.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00024811
+ENTRY POINT SYMBOL: "_c_int00"  address: 00020911
 
 
 MEMORY CONFIGURATION
@@ -14,10 +14,10 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   MMR                   00000000   000000c0  00000000  000000c0  RWIX
-  DARAM0                000000c0   0000ff40  000058d8  0000a668  RWIX
+  DARAM0                000000c0   0000ff40  00003080  0000cec0  RWIX
   SARAM0                00010000   00010000  00000000  00010000  RWIX
-  SARAM1                00020000   00020000  00004933  0001b6cd  RWIX
-  SARAM2                00040000   0000fe00  00000330  0000fad0  RWIX
+  SARAM1                00020000   00020000  00000961  0001f69f  RWIX
+  SARAM2                00040000   0000fe00  0000003a  0000fdc6  RWIX
   VECS                  0004fe00   00000200  00000100  00000100  RWIX
   PDROM                 00ff8000   00008000  00000000  00008000  R IX
 
@@ -42,102 +42,37 @@ section   page  orgn(bytes) orgn(words) len(bytes) len(words)   input sections
 *            0   [ 000020c0 ]  00001060          *   00000800   UNINITIALIZED
                  [ 000020c0 ]  00001060          *   00000800   --HOLE--
 
-.sysmem      0   [ 000030c0 ]  00001860          *   00001000   UNINITIALIZED
-                 [ 000030c0 ]  00001860          *   00001000   --HOLE--
+.const       0   [ 000030c0 ]  00001860          *   00000030   
+                 [ 000030c0 ]  00001860          *   00000030   aic3204_tone_headphone.obj (.const:_$P$T0$1)
 
-.bss         0   [ 000050c0 ]  00002860          *   0000026a   UNINITIALIZED
-                 [ 000050c0 ]  00002860          *   00000119   rts55x.lib : defs.obj (.bss)
-                 [ 000052f2 ]  00002979          *   000000d0              : trgdrv.obj (.bss)
-                 [ 00005492 ]  00002a49          *   00000001   i2c.obj (.bss)
-                 [ 00005494 ]  00002a4a          *   00000071   rts55x.lib : lowlev.obj (.bss)
-                 [ 00005576 ]  00002abb          *   00000001              : fopen.obj (.bss)
-                 [ 00005578 ]  00002abc          *   00000006              : memory.obj (.bss)
-                 [ 00005584 ]  00002ac2          *   00000004              : _lock.obj (.bss)
-                 [ 0000558c ]  00002ac6          *   00000004              : exit.obj (.bss)
+.bss         0   [ 00003120 ]  00001890          *   00000010   UNINITIALIZED
+                 [ 00003120 ]  00001890          *   00000007   main.obj (.bss)
+                 [ 0000312e ]  00001897          *   00000001   i2c.obj (.bss)
+                 [ 00003130 ]  00001898          *   00000004   rts55x.lib : _lock.obj (.bss)
+                 [ 00003138 ]  0000189c          *   00000004              : exit.obj (.bss)
 
-.const.1     0   [ 00005594 ]  00002aca          *   00000101   
-                 [ 00005594 ]  00002aca          *   00000101   rts55x.lib : ctype.obj (.const:__ctypes_)
+.text        0     00020000  [ 00010000 ] 00000961          *   
+                   00020000  [ 00010000 ] 0000024a          *   aic3204_tone_headphone.obj (.text)
+                   0002024a  [ 00010125 ] 000001f8          *   aic3204.obj (.text)
+                   00020442  [ 00010221 ] 00000164          *   gpio.obj (.text)
+                   000205a6  [ 000102d3 ] 00000129          *   i2c.obj (.text)
+                   000206cf  [ 00010367+] 00000118          *   main.obj (.text)
+                   000207e7  [ 000103f3+] 00000054          *   C5515.obj (.text)
+                   0002083b  [ 0001041d+] 0000004d          *   rts55x.lib : autoinit.obj (.text)
+                   00020888  [ 00010444 ] 0000004b          *              : args_main.obj (.text)
+                   000208d3  [ 00010469+] 0000003e          *              : exit.obj (.text)
+                   00020911  [ 00010488+] 00000034          *              : boot.obj (.text)
+                   00020945  [ 000104a2+] 00000012          *              : _lock.obj (.text)
+                   00020957  [ 000104ab+] 00000007          *              : exit.obj (.text:CIO_breakpoint)
+                   0002095e  [ 000104af ] 00000002          *              : vectors.obj (.text)
+                   00020960  [ 000104b0 ] 00000001          *   --HOLE-- [fill = 20]
 
-.const.2     0   [ 00005798 ]  00002bcc          *   000000ab   
-                 [ 00005798 ]  00002bcc          *   0000007b   main.obj (.const:.string)
-                 [ 0000588e ]  00002c47          *   00000030   aic3204_tone_headphone.obj (.const:_$P$T0$1)
-
-.const.3     0   [ 000058f0 ]  00002c78          *   00000056   
-                 [ 000058f0 ]  00002c78          *   00000024   rts55x.lib : _printfi.obj (.const:.string)
-                 [ 00005938 ]  00002c9c          *   0000001a   aic3204_test.obj (.const:.string)
-                 [ 0000596c ]  00002cb6          *   0000000c   rts55x.lib : _printfi.obj (.const)
-                 [ 00005984 ]  00002cc2          *   00000008              : divd.obj (.const:_initial_approx$1)
-                 [ 00005994 ]  00002cca          *   00000002              : fputs.obj (.const:.string)
-                 [ 00005998 ]  00002ccc          *   00000002              : fltlid.obj (.const)
-
-.text        0     00020000  [ 00010000 ] 00004933          *   
-                   00020000  [ 00010000 ] 000015a4          *   rts55x.lib : _printfi.obj (.text)
-                   000215a4  [ 00010ad2 ] 00000543          *              : lowlev.obj (.text)
-                   00021ae7  [ 00010d73+] 00000528          *              : trgdrv.obj (.text)
-                   0002200f  [ 00011007+] 000004b5          *              : memory.obj (.text)
-                   000224c4  [ 00011262 ] 000003cc          *              : divd.obj (.text)
-                   00022890  [ 00011448 ] 0000027f          *              : fopen.obj (.text)
-                   00022b0f  [ 00011587+] 0000025e          *              : llmpy.obj (.text)
-                   00022d6d  [ 000116b6+] 0000025a          *              : addd.obj (.text)
-                   00022fc7  [ 000117e3+] 00000259          *   aic3204_loop_mic_in.obj (.text)
-                   00023220  [ 00011910 ] 0000024a          *   aic3204_tone_headphone.obj (.text)
-                   0002346a  [ 00011a35 ] 000001ea          *   rts55x.lib : cmpd.obj (.text)
-                   00023654  [ 00011b2a ] 00000164          *   gpio.obj (.text)
-                   000237b8  [ 00011bdc ] 00000163          *   rts55x.lib : fputs.obj (.text)
-                   0002391b  [ 00011c8d+] 0000014c          *              : mpyd.obj (.text)
-                   00023a67  [ 00011d33+] 00000129          *   i2c.obj (.text)
-                   00023b90  [ 00011dc8 ] 000000e6          *   rts55x.lib : setvbuf.obj (.text)
-                   00023c76  [ 00011e3b ] 000000dd          *              : _io_perm.obj (.text)
-                   00023d53  [ 00011ea9+] 000000c6          *   aic3204_test.obj (.text)
-                   00023e19  [ 00011f0c+] 000000c2          *   rts55x.lib : fflush.obj (.text)
-                   00023edb  [ 00011f6d+] 000000ba          *              : trgmsg.obj (.text:CIO_breakpoint)
-                   00023f95  [ 00011fca+] 000000a6          *              : fputc.obj (.text)
-                   0002403b  [ 0001201d+] 000000a1          *              : divul.obj (.text)
-                   000240dc  [ 0001206e ] 0000008c          *   main.obj (.text)
-                   00024168  [ 000120b4 ] 0000007d          *   rts55x.lib : ltoa.obj (.text)
-                   000241e5  [ 000120f2+] 0000007b          *              : fclose.obj (.text)
-                   00024260  [ 00012130 ] 00000076          *              : frcmpyd.obj (.text)
-                   000242d6  [ 0001216b ] 00000073          *              : frcmpyd_div.obj (.text)
-                   00024349  [ 000121a4+] 00000072          *              : remul.obj (.text)
-                   000243bb  [ 000121dd+] 0000006f          *              : fixdli.obj (.text)
-                   0002442a  [ 00012215 ] 0000006d          *              : trgmsg.obj (.text)
-                   00024497  [ 0001224b+] 0000006b          *              : fseek.obj (.text)
-                   00024502  [ 00012281 ] 00000067          *              : fltlid.obj (.text)
-                   00024569  [ 000122b4+] 0000005c          *              : atoi.obj (.text)
-                   000245c5  [ 000122e2+] 00000054          *   C5515.obj (.text)
-                   00024619  [ 0001230c+] 00000050          *   rts55x.lib : printf.obj (.text)
-                   00024669  [ 00012334+] 0000004d          *              : autoinit.obj (.text)
-                   000246b6  [ 0001235b ] 0000004b          *              : args_main.obj (.text)
-                   00024701  [ 00012380+] 0000004b          *              : remli.obj (.text)
-                   0002474c  [ 000123a6 ] 00000048          *              : divli.obj (.text)
-                   00024794  [ 000123ca ] 0000003f          *              : memcpy.obj (.text)
-                   000247d3  [ 000123e9+] 0000003e          *              : exit.obj (.text)
-                   00024811  [ 00012408+] 00000034          *              : boot.obj (.text)
-                   00024845  [ 00012422+] 0000002a          *              : fixdi.obj (.text)
-                   0002486f  [ 00012437+] 0000002a          *              : udiv.obj (.text)
-                   00024899  [ 0001244c+] 00000023          *              : memccpy.obj (.text)
-                   000248bc  [ 0001245e ] 0000001a          *              : isinf.obj (.text)
-                   000248d6  [ 0001246b ] 00000014          *              : subd.obj (.text)
-                   000248ea  [ 00012475 ] 00000013          *              : lmpy.obj (.text)
-                   000248fd  [ 0001247e+] 00000012          *              : _lock.obj (.text)
-                   0002490f  [ 00012487+] 00000010          *              : negd.obj (.text)
-                   0002491f  [ 0001248f+] 0000000a          *              : remove.obj (.text)
-                   00024929  [ 00012494+] 00000007          *              : exit.obj (.text:CIO_breakpoint)
-                   00024930  [ 00012498 ] 00000002          *              : vectors.obj (.text)
-                   00024932  [ 00012499 ] 00000001          *   --HOLE-- [fill = 20]
-
-.cio         0   [ 00040000 ]  00020000          *   00000120   UNINITIALIZED
-                 [ 00040000 ]  00020000          *   00000120   rts55x.lib : trgmsg.obj (.cio)
-
-.cinit       0   [ 00040240 ]  00020120          *   00000078   
-                 [ 00040240 ]  00020120          *   0000002d   rts55x.lib : lowlev.obj (.cinit)
-                 [ 0004029a ]  0002014d          *   0000002a              : defs.obj (.cinit)
-                 [ 000402ee ]  00020177          *   0000000a              : _lock.obj (.cinit)
-                 [ 00040302 ]  00020181          *   0000000a              : exit.obj (.cinit)
-                 [ 00040316 ]  0002018b          *   00000004   i2c.obj (.cinit)
-                 [ 0004031e ]  0002018f          *   00000004   rts55x.lib : fopen.obj (.cinit)
-                 [ 00040326 ]  00020193          *   00000004              : memory.obj (.cinit)
-                 [ 0004032e ]  00020197          *   00000001   --HOLE-- [fill = 0]
+.cinit       0   [ 00040000 ]  00020000          *   0000001d   
+                 [ 00040000 ]  00020000          *   0000000a   rts55x.lib : _lock.obj (.cinit)
+                 [ 00040014 ]  0002000a          *   0000000a              : exit.obj (.cinit)
+                 [ 00040028 ]  00020014          *   00000004   i2c.obj (.cinit)
+                 [ 00040030 ]  00020018          *   00000004   main.obj (.cinit)
+                 [ 00040038 ]  0002001c          *   00000001   --HOLE-- [fill = 0]
 
 vectors      0     0004fe00  [ 00027f00 ] 00000100          *   
                    0004fe00  [ 00027f00 ] 00000100          *   rts55x.lib : vectors.obj (vectors)
@@ -154,151 +89,63 @@ byte addr   word addr   name
 ffffffff                .bss
 ffffffff                .data
 ffffffff                .text
-0002492a                C$$EXIT
-00023f90                C$$IO$$
-000248ea                I$$LMPY
-0002486f                I$$UDIV
-00024884                I$$UMOD
-00023d53                _AIC3204_rget
-00023d9e                _AIC3204_rset
-00023760                _EVM5515_GPIO_getInput
-00023654                _EVM5515_GPIO_init
-00023658                _EVM5515_GPIO_setDirection
-000236e3                _EVM5515_GPIO_setOutput
-0002460b                _EVM5515_init
-000245c5                _EVM5515_wait
-000245f9                _EVM5515_waitusec
-00021fb1                _HOSTclock
-00021f46                _HOSTclose
-00021e91                _HOSTlseek
-00021df2                _HOSTopen
-00021d65                _HOSTread
-00021cb7                _HOSTrename
-00021c59                _HOSTtime
-00021bef                _HOSTunlink
-00021b62                _HOSTwrite
-00023a86                _I2C_close
-00023a67                _I2C_init
-00023b17                _I2C_read
-00023a8f                _I2C_reset
-00023a9d                _I2C_write
+00020958                C$$EXIT
+0002024a                _AIC3204_rget
+00020295                _AIC3204_rset
+0002054e                _EVM5515_GPIO_getInput
+00020442                _EVM5515_GPIO_init
+00020446                _EVM5515_GPIO_setDirection
+000204d1                _EVM5515_GPIO_setOutput
+0002082d                _EVM5515_init
+000207e7                _EVM5515_wait
+0002081b                _EVM5515_waitusec
+000205c5                _I2C_close
+000205a6                _I2C_init
+00020656                _I2C_read
+000205ce                _I2C_reset
+000205dc                _I2C_write
 0004fe00                _Reset
-000240dc                _TEST_execute
-            00020000    __CIOBUF_
             00001060    __STACK_END
 00002000                __STACK_SIZE
-00002000                __SYSMEM_SIZE
 00001000                __SYSSTACK_SIZE
 00000001                __TI_args_main
 ffffffff                ___binit__
 ffffffff                ___bss__
 ffffffff                ___c_args__
-            00020120    ___cinit__
+            00020000    ___cinit__
 ffffffff                ___data__
 ffffffff                ___edata__
 ffffffff                ___end__
 ffffffff                ___etext__
-000248bc                ___isinf
 ffffffff                ___pinit__
 ffffffff                ___text__
-00022d6d                __addd
-000246b6                __args_main
-000229b1                __cleanup
-            00002ac6    __cleanup_ptr
-000235fc                __cmpd
-            00002aca    __ctypes_
-000224c4                __divd
-0002474c                __divli
-00022d38                __divlli
-0002486f                __divu
-0002403b                __divul
-00022c44                __divull
-00023e19                __doflush
-            00002ac8    __dtors_ptr
-000235c8                __eqld
-00024845                __fixdi
-000243bb                __fixdli
-00024502                __fltlid
-00024260                __frcmpyd
-000242d6                __frcmpyd_div
-            00002978    __ft_end
-            00002860    __ftable
-0002357e                __geqd
-00023533                __gtrd
-000234e6                __leqd
-            00002ac2    __lock
-0002349e                __lssd
-0002391b                __mpyd
-000248ea                __mpyli
-00022b8c                __mpylli
-0002490f                __negd
-0002346a                __neqd
-0002490d                __nop
-00021362                __printfi
-00023cf6                __rd_ok
-00024905                __register_lock
-000248fd                __register_unlock
-00024701                __remli
-00022b5d                __remlli
-00024884                __remu
-00024349                __remul
-00022b0f                __remull
+00020888                __args_main
+            0000189c    __cleanup_ptr
+            0000189e    __dtors_ptr
+            00001898    __lock
+00020955                __nop
+0002094d                __register_lock
+00020945                __register_unlock
             00000060    __stack
-000248d6                __subd
-            00001860    __sys_memory
             00001060    __sysstack
-            000028d8    __tmpnams
-            00002ac4    __unlock
-00023c76                __wrt_ok
-00024929                _abort
-000219f7                _add_device
-00022fc7                _aic3204_loop_mic_in
-00023dc0                _aic3204_test
-00023220                _aic3204_tone_headphone
-00024569                _atoi
-00024669                _auto_init
-00024811                _c_int00
-0002249e                _calloc
-00022496                _chkheap
-00021984                _close
-000247d3                _exit
-000241e5                _fclose
-00023e82                _fflush
-0002197b                _find_registered_device
-00022ad4                _fopen
-00023f95                _fputc
-000237b8                _fputs
-0002200f                _free
-00022440                _free_memory
-00022a0b                _freopen
-00024497                _fseek
-00021ae7                _getenv
-            00002a49    _i2c_timeout
-00021915                _lseek
-00024168                _ltoa
-0002412d                _main
-00022140                _malloc
-000223e6                _max_free
-00024899                _memccpy
-00024794                _memcpy
-000220db                _minit
-00021856                _open
-00024619                _printf
-00023f95                _putc
-0002402c                _putchar
-000238ed                _puts
-000217a8                _read
-0002442a                _readmsg
-00022235                _realloc
-0002491f                _remove
-00021772                _remove_device
-00021719                _rename
-00023b90                _setvbuf
-000216e6                _unlink
-000215a4                _write
-00023edb                _writemsg
+            0000189a    __unlock
+00020957                _abort
+000202b7                _aic3204_mic
+00020000                _aic3204_tone_headphone
+0002083b                _auto_init
+00020911                _c_int00
+            00001893    _data1
+            00001894    _data2
+            00001895    _data3
+            00001896    _data4
+000208d3                _exit
+            00001891    _i
+            00001897    _i2c_timeout
+            00001890    _j
+000206cf                _main
+            00001892    _sample
 ffffffff                binit
-            00020120    cinit
+            00020000    cinit
 ffffffff                edata
 ffffffff                end
 ffffffff                etext
@@ -317,136 +164,48 @@ byte addr   word addr   name
             00000060    __stack
 00001000                __SYSSTACK_SIZE
 00002000                __STACK_SIZE
-00002000                __SYSMEM_SIZE
             00001060    __STACK_END
             00001060    __sysstack
-            00001860    __sys_memory
-            00002860    __ftable
-            000028d8    __tmpnams
-            00002978    __ft_end
-            00002a49    _i2c_timeout
-            00002ac2    __lock
-            00002ac4    __unlock
-            00002ac6    __cleanup_ptr
-            00002ac8    __dtors_ptr
-            00002aca    __ctypes_
-00021362                __printfi
-000215a4                _write
-000216e6                _unlink
-00021719                _rename
-00021772                _remove_device
-000217a8                _read
-00021856                _open
-00021915                _lseek
-0002197b                _find_registered_device
-00021984                _close
-000219f7                _add_device
-00021ae7                _getenv
-00021b62                _HOSTwrite
-00021bef                _HOSTunlink
-00021c59                _HOSTtime
-00021cb7                _HOSTrename
-00021d65                _HOSTread
-00021df2                _HOSTopen
-00021e91                _HOSTlseek
-00021f46                _HOSTclose
-00021fb1                _HOSTclock
-0002200f                _free
-000220db                _minit
-00022140                _malloc
-00022235                _realloc
-000223e6                _max_free
-00022440                _free_memory
-00022496                _chkheap
-0002249e                _calloc
-000224c4                __divd
-000229b1                __cleanup
-00022a0b                _freopen
-00022ad4                _fopen
-00022b0f                __remull
-00022b5d                __remlli
-00022b8c                __mpylli
-00022c44                __divull
-00022d38                __divlli
-00022d6d                __addd
-00022fc7                _aic3204_loop_mic_in
-00023220                _aic3204_tone_headphone
-0002346a                __neqd
-0002349e                __lssd
-000234e6                __leqd
-00023533                __gtrd
-0002357e                __geqd
-000235c8                __eqld
-000235fc                __cmpd
-00023654                _EVM5515_GPIO_init
-00023658                _EVM5515_GPIO_setDirection
-000236e3                _EVM5515_GPIO_setOutput
-00023760                _EVM5515_GPIO_getInput
-000237b8                _fputs
-000238ed                _puts
-0002391b                __mpyd
-00023a67                _I2C_init
-00023a86                _I2C_close
-00023a8f                _I2C_reset
-00023a9d                _I2C_write
-00023b17                _I2C_read
-00023b90                _setvbuf
-00023c76                __wrt_ok
-00023cf6                __rd_ok
-00023d53                _AIC3204_rget
-00023d9e                _AIC3204_rset
-00023dc0                _aic3204_test
-00023e19                __doflush
-00023e82                _fflush
-00023edb                _writemsg
-00023f90                C$$IO$$
-00023f95                _fputc
-00023f95                _putc
-0002402c                _putchar
-0002403b                __divul
-000240dc                _TEST_execute
-0002412d                _main
-00024168                _ltoa
-000241e5                _fclose
-00024260                __frcmpyd
-000242d6                __frcmpyd_div
-00024349                __remul
-000243bb                __fixdli
-0002442a                _readmsg
-00024497                _fseek
-00024502                __fltlid
-00024569                _atoi
-000245c5                _EVM5515_wait
-000245f9                _EVM5515_waitusec
-0002460b                _EVM5515_init
-00024619                _printf
-00024669                _auto_init
-000246b6                __args_main
-00024701                __remli
-0002474c                __divli
-00024794                _memcpy
-000247d3                _exit
-00024811                _c_int00
-00024845                __fixdi
-0002486f                I$$UDIV
-0002486f                __divu
-00024884                I$$UMOD
-00024884                __remu
-00024899                _memccpy
-000248bc                ___isinf
-000248d6                __subd
-000248ea                I$$LMPY
-000248ea                __mpyli
-000248fd                __register_unlock
-00024905                __register_lock
-0002490d                __nop
-0002490f                __negd
-0002491f                _remove
-00024929                _abort
-0002492a                C$$EXIT
-            00020000    __CIOBUF_
-            00020120    ___cinit__
-            00020120    cinit
+            00001890    _j
+            00001891    _i
+            00001892    _sample
+            00001893    _data1
+            00001894    _data2
+            00001895    _data3
+            00001896    _data4
+            00001897    _i2c_timeout
+            00001898    __lock
+            0000189a    __unlock
+            0000189c    __cleanup_ptr
+            0000189e    __dtors_ptr
+00020000                _aic3204_tone_headphone
+0002024a                _AIC3204_rget
+00020295                _AIC3204_rset
+000202b7                _aic3204_mic
+00020442                _EVM5515_GPIO_init
+00020446                _EVM5515_GPIO_setDirection
+000204d1                _EVM5515_GPIO_setOutput
+0002054e                _EVM5515_GPIO_getInput
+000205a6                _I2C_init
+000205c5                _I2C_close
+000205ce                _I2C_reset
+000205dc                _I2C_write
+00020656                _I2C_read
+000206cf                _main
+000207e7                _EVM5515_wait
+0002081b                _EVM5515_waitusec
+0002082d                _EVM5515_init
+0002083b                _auto_init
+00020888                __args_main
+000208d3                _exit
+00020911                _c_int00
+00020945                __register_unlock
+0002094d                __register_lock
+00020955                __nop
+00020957                _abort
+00020958                C$$EXIT
+            00020000    ___cinit__
+            00020000    cinit
 0004fe00                _Reset
 ffffffff                .bss
 ffffffff                .data
@@ -466,4 +225,4 @@ ffffffff                end
 ffffffff                etext
 ffffffff                pinit
 
-[155 symbols]
+[67 symbols]

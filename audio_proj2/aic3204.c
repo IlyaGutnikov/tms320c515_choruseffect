@@ -4,26 +4,62 @@
  */
 
 /*
- *  AIC3204 Tone
+ *  AIC3204 Test
  *
  */
-#include "stdio.h"
+
+#define AIC3204_I2C_ADDR 0x18
 #include "C5515.h"
-extern Int16 AIC3204_rset( Uint16 regnum, Uint16 regval);
-#define Rcv 0x08
-#define Xmit 0x20
+#include "gpio.h"
+#include "i2c.h"
+#include "i2s.h"
+#include "stdio.h"
+
+
 /* ------------------------------------------------------------------------ *
  *                                                                          *
- *  AIC3204 Microphone                                                      *
- *      Output a sound from the Microphone on the HEADPHONE jack            *
+ *  _AIC3204_rget( regnum, regval )                                         *
+ *                                                                          *
+ *      Return value of codec register regnum                               *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 aic3204_loop_mic_in( )
+Int16 AIC3204_rget(  Uint16 regnum, Uint16* regval )
+{
+    Int16 retcode = 0;
+    Uint8 cmd[2];
+
+    cmd[0] = regnum & 0x007F;       // 7-bit Device Address
+    cmd[1] = 0;
+
+    retcode |= I2C_write( AIC3204_I2C_ADDR, cmd, 1 );
+    retcode |= I2C_read( AIC3204_I2C_ADDR, cmd, 1 );
+
+    *regval = cmd[0];
+    EVM5515_wait( 10 );
+    return retcode;
+}
+
+/* ------------------------------------------------------------------------ *
+ *                                                                          *
+ *  _AIC3204_rset( regnum, regval )                                         *
+ *                                                                          *
+ *      Set codec register regnum to value regval                           *
+ *                                                                          *
+ * ------------------------------------------------------------------------ */
+Int16 AIC3204_rset( Uint16 regnum, Uint16 regval )
+{
+    Uint8 cmd[2];
+    cmd[0] = regnum & 0x007F;       // 7-bit Register Address
+    cmd[1] = regval;                // 8-bit Register Data
+
+    return I2C_write( AIC3204_I2C_ADDR, cmd, 2 );
+}
+
+Int16 aic3204_mic( )
 {
     /* Pre-generated sine wave data, 16-bit signed samples */
-    Int16 j, i = 0;
-    Int16 sample, data1, data2, data3, data4;
-   
+
+
 /* ------------------------------------------------------------------------ *
  *                                                                          *
  *   Configure AIC3204                                                      *
@@ -39,7 +75,7 @@ Int16 aic3204_loop_mic_in( )
     AIC3204_rset(  0, 0x01 );      // Select page 1
     AIC3204_rset(  1, 0x08 );      // Disable crude AVDD generation from DVDD
     AIC3204_rset(  2, 0x00 );      // Enable Analog Blocks
-    // PLL and Clocks config and Power Up  
+    // PLL and Clocks config and Power Up
     AIC3204_rset(  0, 0x00 );      // Select page 0
     AIC3204_rset( 27, 0x00 );      // BCLK and WCLK is set as i/p to AIC3204(Slave)
     AIC3204_rset(  4, 0x07 );      // PLL setting: PLLCLK <- BCLK and CODEC_CLKIN <-PLL CLK
@@ -55,7 +91,7 @@ Int16 aic3204_loop_mic_in( )
     AIC3204_rset( 12, 0x82 );      // Power up MDAC and set MDAC value to 2
     AIC3204_rset( 18, 0x84 );      // Power up NADC and set NADC value to 4
     AIC3204_rset( 19, 0x82 );      // Power up MADC and set MADC value to 2
-    // DAC ROUTING and Power Up 
+    // DAC ROUTING and Power Up
     AIC3204_rset(  0, 0x01 );      // Select page 1
     AIC3204_rset( 12, 0x08 );      // LDAC AFIR routed to HPL
     AIC3204_rset( 13, 0x08 );      // RDAC AFIR routed to HPR
@@ -69,7 +105,7 @@ Int16 aic3204_loop_mic_in( )
     AIC3204_rset(  9, 0x30 );      // Power up HPL,HPR
     AIC3204_rset(  0, 0x00 );      // Select page 0
     EVM5515_wait( 500 );         // Wait
-    // ADC ROUTING and Power Up 
+    // ADC ROUTING and Power Up
     AIC3204_rset(  0, 0x01 );      // Select page 1
     AIC3204_rset( 51, 0x40 );      // SetMICBIAS
     AIC3204_rset( 52, 0xc0 );      // STEREO 1 Jack
@@ -82,36 +118,10 @@ Int16 aic3204_loop_mic_in( )
     AIC3204_rset(  0, 0x00 );      // Select page 0
     AIC3204_rset( 81, 0xc0 );      // Powerup Left and Right ADC
     AIC3204_rset( 82, 0x00 );      // Unmute Left and Right ADC
-    
-    AIC3204_rset( 0,  0x00 );    
-    EVM5515_wait( 200 );  // Wait 
-        
-    /* I2S settings */
-    I2S2_SRGR = 0x0015;
-    I2S2_ICMR = 0x0028;    // Enable interrupts
-    I2S2_CR   = 0x8012;    // 16-bit word, Master, enable I2C
-    
-    /* Play Tone */ //вот это надо кинуть в aic3204.c
-    for( i = 0 ; i < 5 ; i++ )
-    {
-        for ( j = 0 ; j < 5000 ; j++ )
-        {
-            for ( sample = 0 ; sample < 48 ; sample++ )
-            {
-				/* Read Digital audio */
-				while((Rcv & I2S2_IR) == 0);   // Wait for receive interrupt to be pending
-                data3 = I2S2_W0_MSW_R;  // 16 bit left channel received audio data
-      	        data4 = I2S2_W1_MSW_R;  // 16 bit right channel received audio data
 
-				/* Write Digital audio */
-                while((Xmit & I2S2_IR) == 0);  // Wait for receive interrupt to be pending
-				I2S2_W0_MSW_W = data3;  // 16 bit left channel transmit audio data
-      	        I2S2_W1_MSW_W = data4;  // 16 bit right channel transmit audio data
-            }
-        }
-    }
-    /* Disble I2S */
-    I2S0_CR = 0x00;
-   
+    AIC3204_rset( 0,  0x00 );
+    EVM5515_wait( 200 );  // Wait
+
     return 0;
 }
+

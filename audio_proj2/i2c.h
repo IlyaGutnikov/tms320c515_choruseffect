@@ -1,9 +1,4 @@
 /*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
  *  I2C header file
  *
  */
@@ -12,6 +7,22 @@
 #define I2C_
 
 #include "C5515.h"
+
+/* ------------------------------------------------------------------------ *
+ *  I2C Module                                                              *
+ * ------------------------------------------------------------------------ */
+
+#define I2C_IER    	       *(volatile ioport Uint16*)(0x1A04)
+#define I2C_STR    	       *(volatile ioport Uint16*)(0x1A08)
+#define I2C_CLKL           *(volatile ioport Uint16*)(0x1A0C)
+#define I2C_CLKH           *(volatile ioport Uint16*)(0x1A10)
+#define I2C_CNT    		   *(volatile ioport Uint16*)(0x1A14)
+#define I2C_DRR    		   *(volatile ioport Uint16*)(0x1A18)
+#define I2C_SAR    	       *(volatile ioport Uint16*)(0x1A1C)
+#define I2C_DXR    	       *(volatile ioport Uint16*)(0x1A20)
+#define I2C_MDR            *(volatile ioport Uint16*)(0x1A24)
+#define I2C_EDR    	       *(volatile ioport Uint16*)(0x1A2C)
+#define I2C_PSC    	       *(volatile ioport Uint16*)(0x1A30)
 
 #define MDR_STT			0x2000
 #define MDR_TRX			0x0200
