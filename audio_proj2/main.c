@@ -79,9 +79,7 @@ void main(void) {
 	Int16 offset;
 	Int16 buffer = 0;
 
-	for (i = 0; i < 5; i++) {
-		for (j = 0; j < 1000; j++) {
-			for (sample = 0; sample < 48; sample++) {
+	for (i = 0; i < 240000; i++) {
 
 				/* Read Digital audio */
 				while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
@@ -125,8 +123,6 @@ void main(void) {
 				while ((Xmit & I2S2_IR) == 0); // Wait for receive interrupt to be pending
 				I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
 				I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
-		}
-	}
 }
 /* Отключаем I2S */
 I2S0_CR = 0x00;
