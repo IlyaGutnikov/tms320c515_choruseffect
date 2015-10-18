@@ -11,7 +11,6 @@ $(GEN_CMDS__FLAG) \
 "./main.obj" \
 "./i2c.obj" \
 "./gpio.obj" \
-"./aic3204_tone_headphone.obj" \
 "./aic3204.obj" \
 "./C5515.obj" \
 "../C5515.cmd" \
@@ -127,8 +126,8 @@ audio_proj2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C5500_EXECUTABLE_OUTPUTS__QUOTED) "audio_proj2.out"
-	-$(RM) "C5515.pp" "aic3204.pp" "aic3204_tone_headphone.pp" "gpio.pp" "i2c.pp" "main.pp" 
-	-$(RM) "C5515.obj" "aic3204.obj" "aic3204_tone_headphone.obj" "gpio.obj" "i2c.obj" "main.obj" 
+	-$(RM) "C5515.pp" "aic3204.pp" "gpio.pp" "i2c.pp" "main.pp" 
+	-$(RM) "C5515.obj" "aic3204.obj" "gpio.obj" "i2c.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

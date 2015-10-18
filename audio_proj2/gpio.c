@@ -1,13 +1,3 @@
-/*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
- *  GPIO implementation
- *
- */
-
 #include "gpio.h"
 
 /* ------------------------------------------------------------------------ *
@@ -15,7 +5,7 @@
  *  _GPIO_init( )                                                           *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_GPIO_init()
+Int16 c5515_GPIO_init()
 {
     return 0;
 }
@@ -28,7 +18,7 @@ Int16 EVM5515_GPIO_init()
  *      direction <- 0:OUT 1:IN                                             *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_GPIO_setDirection( Uint16 number, Uint16 direction )
+Int16 c5515_GPIO_setDirection( Uint16 number, Uint16 direction )
 {
 
     Uint32 bank_id = ( number >> 4);
@@ -57,7 +47,7 @@ Int16 EVM5515_GPIO_setDirection( Uint16 number, Uint16 direction )
  *      value    <- 0:LOW 1:HIGH                                            *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_GPIO_setOutput( Uint16 number, Uint16 output )
+Int16 c5515_GPIO_setOutput( Uint16 number, Uint16 output )
 {
     Uint32 bank_id = ( number >> 4 );
     Uint32 pin_id  = ( 1 << ( number & 0xF ) );
@@ -87,7 +77,7 @@ Int16 EVM5515_GPIO_setOutput( Uint16 number, Uint16 output )
  *                  1:HIGH                                                  *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_GPIO_getInput( Uint16 number )
+Int16 c5515_GPIO_getInput( Uint16 number )
 {
     Uint32 input;
     Uint32 bank_id = ( number >> 4 );

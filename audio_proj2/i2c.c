@@ -1,9 +1,4 @@
 /*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
  *  I2C implementation
  *
  */
@@ -26,7 +21,7 @@ Int16 I2C_init( )
     I2C_CLKL  = 25;               // Config clk LOW for 100kHz
     I2C_CLKH  = 25;               // Config clk HIGH for 100kHz
     
-    I2C_MDR   = 0x0420   ;        // Release from reset; Master, Transmitter, 7-bit address
+    I2C_MDR   = 0x0420;        // Release from reset; Master, Transmitter, 7-bit address
     
     return 0;
 }
@@ -44,7 +39,8 @@ Int16 I2C_close( )
 
 /* ------------------------------------------------------------------------ *
  *                                                                          *
- *  _I2C_reset( )                                                           *
+ *  _I2C_reset( )															*
+ *  Сброс I2C                                                               *
  *                                                                          *
  * ------------------------------------------------------------------------ */
 Int16 I2C_reset( )
@@ -73,17 +69,18 @@ Int16 I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
         I2C_CNT = len;                    // Set length
         I2C_SAR = i2c_addr;               // Set I2C slave address
         I2C_MDR = MDR_STT                 // Set for Master Write
-                  | MDR_TRX
-                  | MDR_MST
-                  | MDR_IRS
-                  | MDR_FREE;
+                  | MDR_TRX				  // Передатчик
+                  | MDR_MST				  // Ведущее устройство
+                  | MDR_IRS				  // Разрешить работу
+                  | MDR_FREE;			  // Работа совместно с эмулятором
 
-        EVM5515_wait(100);              // Short delay
+        c5515_wait(100);                // Задержка перед передачей
 
         for ( i = 0 ; i < len ; i++ )
         {
-           I2C_DXR = data[i];            // Write
-            timeout = 0x7fff;//i2c_timeout;
+           I2C_DXR = data[i];            // Запись байта в регистр передатчика
+           timeout = 0x7fff; 			 //i2c_timeout
+            // Ожидание передачи данных
             do
             {
                 if ( timeout-- < 0  )
@@ -94,9 +91,9 @@ Int16 I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
             } while ( ( I2C_STR & STR_XRDY ) == 0 );// Wait for Tx Ready
         }
 
-        I2C_MDR |= MDR_STP;             // Generate STOP
+        I2C_MDR |= MDR_STP;             // Генерация STOP
 
-		EVM5515_waitusec(1000);
+		c5515_waitusec(1000); 			// Перерыв в линии
 
         return 0;
 
@@ -118,22 +115,24 @@ Int16 I2C_write( Uint16 i2c_addr, Uint8* data, Uint16 len )
  * ------------------------------------------------------------------------ */
 Int16 I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len )
 {
+	// Локальные данные
     Int32 timeout, i;
 
-    I2C_CNT = len;                    // Set length
-    I2C_SAR = i2c_addr;               // Set I2C slave address
+    I2C_CNT = len;                    // Задание длины данных в посылках
+    I2C_SAR = i2c_addr;               // Задать адрес ведомого
     I2C_MDR = MDR_STT                 // Set for Master Read
-              | MDR_MST
-              | MDR_IRS
-              | MDR_FREE;
+              | MDR_MST				  // Ведущее устройство
+              | MDR_IRS				  // Разрешить работу
+              | MDR_FREE;			  // Работа совместно с эмулятором
 
-    EVM5515_wait( 10 );            // Short delay
+    c5515_wait( 10 );            // Задержка перед приемом
 
+    // Прием данных
     for ( i = 0 ; i < len ; i++ )
     {
         timeout = i2c_timeout;
 
-        //Wait for Rx Ready 
+        // Ожидание приема данных
         do
         {
             if ( timeout-- < 0 )
@@ -141,13 +140,13 @@ Int16 I2C_read( Uint16 i2c_addr, Uint8* data, Uint16 len )
                 I2C_reset( );
                 return -1;
             }
-        } while ( ( I2C_STR & STR_RRDY ) == 0 );// Wait for Rx Ready
+        } while ( ( I2C_STR & STR_RRDY ) == 0 );
 
-        data[i] = I2C_DRR;            // Read
+        data[i] = I2C_DRR;            // Получить данные
     }
 
-    I2C_MDR |= MDR_STP;               // Generate STOP
+    I2C_MDR |= MDR_STP;               // Генерация STOP
 
-	EVM5515_waitusec(10);
+	c5515_waitusec(10);				  // Перерыв в линии
     return 0;
 }

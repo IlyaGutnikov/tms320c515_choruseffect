@@ -26,7 +26,7 @@
 
 #define SW_BREAKPOINT      while(1);
 /* ------------------------------------------------------------------------ *
- *  System Module                                                           *
+ *  Системный модуль                                                        *
  * ------------------------------------------------------------------------ */
 #define SYS_EXBUSSEL       *(volatile ioport Uint16*)(0x1c00)
 #define SYS_PCGCR1         *(volatile ioport Uint16*)(0x1c02)
@@ -41,13 +41,14 @@
 #define SYS_GPIO_DATAOUT1  *(volatile ioport Uint16*)(0x1c0b)
 #define SYS_OUTDRSTR       *(volatile ioport Uint16*)(0x1c16)
 #define SYS_SPPDIR         *(volatile ioport Uint16*)(0x1c17)
+
 /* ------------------------------------------------------------------------ *
- *  Prototypes                                                              *
+ *  Прототипы функций                                                       *
  * ------------------------------------------------------------------------ */
-/* Board Initialization */
+/* Инициализация платы */
 Int16 EVM5515_init( );
 
-/* Wait Functions */
+/* Функции ожидания */
 void EVM5515_wait( Uint32 delay );
 void EVM5515_waitusec( Uint32 usec );
 

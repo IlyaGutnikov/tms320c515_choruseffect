@@ -1,23 +1,13 @@
-/*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
- *  Board Setup
- *
- */
-
 #include "C5515.h"
 
 /* ------------------------------------------------------------------------ *
  *                                                                          *
- *  EVM5515_wait( delay )                                                          *
+ *  EVM5515_wait( delay )                                                   *
  *                                                                          *
- *      Wait in a software loop for 'x' delay                               *
+ *      Программная задержка                               					*
  *                                                                          *
  * ------------------------------------------------------------------------ */
-void EVM5515_wait( Uint32 delay )
+void c5515_wait( Uint32 delay )
 {
     volatile Uint32 i;
     for ( i = 0 ; i < delay ; i++ ){ };
@@ -27,22 +17,22 @@ void EVM5515_wait( Uint32 delay )
  *                                                                          *
  *  _waitusec( usec )                                                       *
  *                                                                          *
- *      Wait in a software loop for 'x' microseconds                        *
+ *      Программная задержка в 'x' микросекунд                              *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-void EVM5515_waitusec( Uint32 usec )
+void c5515_waitusec( Uint32 usec )
 {
-    EVM5515_wait( (Uint32)usec * 8 );
+    c5515_wait( (Uint32)usec * 8 );
 }
 
 /* ------------------------------------------------------------------------ *
  *                                                                          *
- *  EVM5515_init( )                                                      *
+ *  EVM5515_init( )                                                         *
  *                                                                          *
- *      Setup board board functions                                         *
+ *      Инициализация микропроцессора                                       *
  *                                                                          *
  * ------------------------------------------------------------------------ */
-Int16 EVM5515_init( )
+Int16 c5515_init( )
 {
     /* Enable clocks to all peripherals */
     SYS_PCGCR1 = 0x0000;

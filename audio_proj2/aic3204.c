@@ -1,14 +1,3 @@
-/*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
- *  AIC3204 Test
- *
- */
-
-#define AIC3204_I2C_ADDR 0x18
 #include "C5515.h"
 #include "gpio.h"
 #include "i2c.h"
@@ -17,11 +6,12 @@
 
 #define Rcv 0x08
 #define Xmit 0x20
+#define AIC3204_I2C_ADDR 0x18
 /* ------------------------------------------------------------------------ *
  *                                                                          *
  *  _AIC3204_rget( regnum, regval )                                         *
  *                                                                          *
- *      Return value of codec register regnum                               *
+ *      Возвращаемое значение кодека регистра REGNUM                        *
  *                                                                          *
  * ------------------------------------------------------------------------ */
 Int16 AIC3204_rget(  Uint16 regnum, Uint16* regval )
@@ -29,14 +19,14 @@ Int16 AIC3204_rget(  Uint16 regnum, Uint16* regval )
     Int16 retcode = 0;
     Uint8 cmd[2];
 
-    cmd[0] = regnum & 0x007F;       // 7-bit Device Address
+    cmd[0] = regnum & 0x007F;       // 7-bit Адрес устройства
     cmd[1] = 0;
 
     retcode |= I2C_write( AIC3204_I2C_ADDR, cmd, 1 );
     retcode |= I2C_read( AIC3204_I2C_ADDR, cmd, 1 );
 
     *regval = cmd[0];
-    EVM5515_wait( 10 );
+    c5515_wait( 10 );
     return retcode;
 }
 
@@ -44,20 +34,21 @@ Int16 AIC3204_rget(  Uint16 regnum, Uint16* regval )
  *                                                                          *
  *  _AIC3204_rset( regnum, regval )                                         *
  *                                                                          *
- *      Set codec register regnum to value regval                           *
+ *      Устанавливает значение кодека                                       *
  *                                                                          *
  * ------------------------------------------------------------------------ */
 Int16 AIC3204_rset( Uint16 regnum, Uint16 regval )
 {
     Uint8 cmd[2];
-    cmd[0] = regnum & 0x007F;       // 7-bit Register Address
-    cmd[1] = regval;                // 8-bit Register Data
+    cmd[0] = regnum & 0x007F;       // 7-bit Адресс регистра
+    cmd[1] = regval;                // 8-bit Данные регистра
 
     return I2C_write( AIC3204_I2C_ADDR, cmd, 2 );
 }
 
 Int16 aic3204_sin( )
 {
+// Программа конфигурации «тон 1 кГц на наушники»
 /* ------------------------------------------------------------------------ *
  *                                                                          *
  *   Configure AIC3204                                                      *
@@ -102,7 +93,7 @@ Int16 aic3204_sin( )
     AIC3204_rset( 17, 0x00 );      // Unmute HPR , 0dB gain
     AIC3204_rset(  9, 0x30 );      // Power up HPL,HPR
     AIC3204_rset(  0, 0x00 );      // Select page 0
-    EVM5515_wait( 500 );           // Wait
+    c5515_wait( 500 );           // Wait
     // ADC ROUTING and Power Up
     AIC3204_rset(  0, 0x01 );      // Select page 1
     AIC3204_rset( 52, 0x0C );      // STEREO 1 Jack
@@ -117,15 +108,15 @@ Int16 aic3204_sin( )
     AIC3204_rset( 82, 0x00 );      // Unmute Left and Right ADC
 
     AIC3204_rset( 0,  0x00 );
-    EVM5515_wait( 200 );  // Wait
+    c5515_wait( 200 );  // Wait
 
     return 0;
 }
 
 Int16 aic3204_mic( )
 {
-    /* Pre-generated sine wave data, 16-bit signed samples */
 
+// Программа конфигурации «с микрофона на наушники»
 
 /* ------------------------------------------------------------------------ *
  *                                                                          *
@@ -171,7 +162,7 @@ Int16 aic3204_mic( )
     AIC3204_rset( 17, 0x06 );      // Unmute HPR , 6dB gain
     AIC3204_rset(  9, 0x30 );      // Power up HPL,HPR
     AIC3204_rset(  0, 0x00 );      // Select page 0
-    EVM5515_wait( 500 );         // Wait
+    c5515_wait( 500 );         // Wait
     // ADC ROUTING and Power Up
     AIC3204_rset(  0, 0x01 );      // Select page 1
     AIC3204_rset( 51, 0x40 );      // SetMICBIAS
@@ -187,18 +178,7 @@ Int16 aic3204_mic( )
     AIC3204_rset( 82, 0x00 );      // Unmute Left and Right ADC
 
     AIC3204_rset( 0,  0x00 );
-    EVM5515_wait( 200 );  // Wait
+    c5515_wait( 200 );  // Wait
 
     return 0;
 }
-/*
-Int16 aic3204_read(Int16 left, Int16 right) {
-
-
-	while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
-	left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
-	right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
-
-	return 0;
-}
-*/

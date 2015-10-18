@@ -9,7 +9,6 @@ CMD_SRCS += \
 C_SRCS += \
 ../C5515.c \
 ../aic3204.c \
-../aic3204_tone_headphone.c \
 ../gpio.c \
 ../i2c.c \
 ../main.c 
@@ -17,7 +16,6 @@ C_SRCS += \
 OBJS += \
 ./C5515.obj \
 ./aic3204.obj \
-./aic3204_tone_headphone.obj \
 ./gpio.obj \
 ./i2c.obj \
 ./main.obj 
@@ -25,7 +23,6 @@ OBJS += \
 C_DEPS += \
 ./C5515.pp \
 ./aic3204.pp \
-./aic3204_tone_headphone.pp \
 ./gpio.pp \
 ./i2c.pp \
 ./main.pp 
@@ -33,7 +30,6 @@ C_DEPS += \
 C_DEPS__QUOTED += \
 "C5515.pp" \
 "aic3204.pp" \
-"aic3204_tone_headphone.pp" \
 "gpio.pp" \
 "i2c.pp" \
 "main.pp" 
@@ -41,7 +37,6 @@ C_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "C5515.obj" \
 "aic3204.obj" \
-"aic3204_tone_headphone.obj" \
 "gpio.obj" \
 "i2c.obj" \
 "main.obj" 
@@ -49,7 +44,6 @@ OBJS__QUOTED += \
 C_SRCS__QUOTED += \
 "../C5515.c" \
 "../aic3204.c" \
-"../aic3204_tone_headphone.c" \
 "../gpio.c" \
 "../i2c.c" \
 "../main.c" 

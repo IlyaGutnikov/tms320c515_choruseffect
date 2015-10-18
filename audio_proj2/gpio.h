@@ -1,13 +1,3 @@
-/*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
-/*
- *  GPIO header file
- *
- */
-
 #ifndef GPIO_
 #define GPIO_
 

@@ -32,7 +32,7 @@ extern Int16 aic3204_read();
 
 void main(void) {
 	/* Initialize BSL */
-	EVM5515_init();
+	c5515_init();
 
 	/* Configure Parallel Port */
 	SYS_EXBUSSEL &= ~0x7000;   //
@@ -40,9 +40,9 @@ void main(void) {
 	/* Configure Serial Port */
 	SYS_EXBUSSEL &= ~0x0C00;   //
 	SYS_EXBUSSEL |= 0x0400;// Serial Port mode 1 (I2S1 and GP[11:10]).
-	EVM5515_GPIO_init();
-	EVM5515_GPIO_setDirection(GPIO10, GPIO_OUT);
-	EVM5515_GPIO_setOutput(GPIO10, 1);    // Take AIC3201 chip out of reset
+	c5515_GPIO_init();
+	c5515_GPIO_setDirection(GPIO10, GPIO_OUT);
+	c5515_GPIO_setOutput(GPIO10, 1);    // Take AIC3201 chip out of reset
 	I2C_init();                    // Initialize I2C
 
     /* I2S settings */
@@ -87,10 +87,10 @@ void main(void) {
 		}
 	}
 }
-/* Disble I2S */
+/* Отключаем I2S */
 I2S0_CR = 0x00;
 
-EVM5515_GPIO_setOutput(GPIO26, 0);
+c5515_GPIO_setOutput(GPIO26, 0);
 
 SW_BREAKPOINT;
 }
