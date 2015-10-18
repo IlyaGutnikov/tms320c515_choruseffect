@@ -1,10 +1,10 @@
 ******************************************************************************
               TMS320C55x Linker PC v4.4.1                      
 ******************************************************************************
->> Linked Sun Oct 18 16:02:08 2015
+>> Linked Sun Oct 18 16:26:19 2015
 
 OUTPUT FILE NAME:   <audio_proj2.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00020911
+ENTRY POINT SYMBOL: "_c_int00"  address: 00020b35
 
 
 MEMORY CONFIGURATION
@@ -14,10 +14,10 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   MMR                   00000000   000000c0  00000000  000000c0  RWIX
-  DARAM0                000000c0   0000ff40  00003080  0000cec0  RWIX
+  DARAM0                000000c0   0000ff40  000030dc  0000ce64  RWIX
   SARAM0                00010000   00010000  00000000  00010000  RWIX
-  SARAM1                00020000   00020000  00000961  0001f69f  RWIX
-  SARAM2                00040000   0000fe00  0000003a  0000fdc6  RWIX
+  SARAM1                00020000   00020000  00000b85  0001f47b  RWIX
+  SARAM2                00040000   0000fe00  000000a0  0000fd60  RWIX
   VECS                  0004fe00   00000200  00000100  00000100  RWIX
   PDROM                 00ff8000   00008000  00000000  00008000  R IX
 
@@ -42,37 +42,37 @@ section   page  orgn(bytes) orgn(words) len(bytes) len(words)   input sections
 *            0   [ 000020c0 ]  00001060          *   00000800   UNINITIALIZED
                  [ 000020c0 ]  00001060          *   00000800   --HOLE--
 
-.const       0   [ 000030c0 ]  00001860          *   00000030   
-                 [ 000030c0 ]  00001860          *   00000030   aic3204_tone_headphone.obj (.const:_$P$T0$1)
+.bss         0   [ 000030c0 ]  00001860          *   0000003e   UNINITIALIZED
+                 [ 000030c0 ]  00001860          *   00000035   main.obj (.bss)
+                 [ 0000312a ]  00001895          *   00000001   i2c.obj (.bss)
+                 [ 0000312c ]  00001896          *   00000004   rts55x.lib : _lock.obj (.bss)
+                 [ 00003134 ]  0000189a          *   00000004              : exit.obj (.bss)
 
-.bss         0   [ 00003120 ]  00001890          *   00000010   UNINITIALIZED
-                 [ 00003120 ]  00001890          *   00000007   main.obj (.bss)
-                 [ 0000312e ]  00001897          *   00000001   i2c.obj (.bss)
-                 [ 00003130 ]  00001898          *   00000004   rts55x.lib : _lock.obj (.bss)
-                 [ 00003138 ]  0000189c          *   00000004              : exit.obj (.bss)
+.const       0   [ 0000313c ]  0000189e          *   00000030   
+                 [ 0000313c ]  0000189e          *   00000030   aic3204_tone_headphone.obj (.const:_$P$T0$1)
 
-.text        0     00020000  [ 00010000 ] 00000961          *   
-                   00020000  [ 00010000 ] 0000024a          *   aic3204_tone_headphone.obj (.text)
-                   0002024a  [ 00010125 ] 000001f8          *   aic3204.obj (.text)
-                   00020442  [ 00010221 ] 00000164          *   gpio.obj (.text)
-                   000205a6  [ 000102d3 ] 00000129          *   i2c.obj (.text)
-                   000206cf  [ 00010367+] 00000118          *   main.obj (.text)
-                   000207e7  [ 000103f3+] 00000054          *   C5515.obj (.text)
-                   0002083b  [ 0001041d+] 0000004d          *   rts55x.lib : autoinit.obj (.text)
-                   00020888  [ 00010444 ] 0000004b          *              : args_main.obj (.text)
-                   000208d3  [ 00010469+] 0000003e          *              : exit.obj (.text)
-                   00020911  [ 00010488+] 00000034          *              : boot.obj (.text)
-                   00020945  [ 000104a2+] 00000012          *              : _lock.obj (.text)
-                   00020957  [ 000104ab+] 00000007          *              : exit.obj (.text:CIO_breakpoint)
-                   0002095e  [ 000104af ] 00000002          *              : vectors.obj (.text)
-                   00020960  [ 000104b0 ] 00000001          *   --HOLE-- [fill = 20]
+.text        0     00020000  [ 00010000 ] 00000b85          *   
+                   00020000  [ 00010000 ] 00000370          *   aic3204.obj (.text)
+                   00020370  [ 000101b8 ] 0000024a          *   aic3204_tone_headphone.obj (.text)
+                   000205ba  [ 000102dd ] 000001c4          *   main.obj (.text)
+                   0002077e  [ 000103bf ] 00000164          *   gpio.obj (.text)
+                   000208e2  [ 00010471 ] 00000129          *   i2c.obj (.text)
+                   00020a0b  [ 00010505+] 00000054          *   C5515.obj (.text)
+                   00020a5f  [ 0001052f+] 0000004d          *   rts55x.lib : autoinit.obj (.text)
+                   00020aac  [ 00010556 ] 0000004b          *              : args_main.obj (.text)
+                   00020af7  [ 0001057b+] 0000003e          *              : exit.obj (.text)
+                   00020b35  [ 0001059a+] 00000034          *              : boot.obj (.text)
+                   00020b69  [ 000105b4+] 00000012          *              : _lock.obj (.text)
+                   00020b7b  [ 000105bd+] 00000007          *              : exit.obj (.text:CIO_breakpoint)
+                   00020b82  [ 000105c1 ] 00000002          *              : vectors.obj (.text)
+                   00020b84  [ 000105c2 ] 00000001          *   --HOLE-- [fill = 20]
 
-.cinit       0   [ 00040000 ]  00020000          *   0000001d   
-                 [ 00040000 ]  00020000          *   0000000a   rts55x.lib : _lock.obj (.cinit)
-                 [ 00040014 ]  0002000a          *   0000000a              : exit.obj (.cinit)
-                 [ 00040028 ]  00020014          *   00000004   i2c.obj (.cinit)
-                 [ 00040030 ]  00020018          *   00000004   main.obj (.cinit)
-                 [ 00040038 ]  0002001c          *   00000001   --HOLE-- [fill = 0]
+.cinit       0   [ 00040000 ]  00020000          *   00000050   
+                 [ 00040000 ]  00020000          *   00000037   main.obj (.cinit)
+                 [ 0004006e ]  00020037          *   0000000a   rts55x.lib : _lock.obj (.cinit)
+                 [ 00040082 ]  00020041          *   0000000a              : exit.obj (.cinit)
+                 [ 00040096 ]  0002004b          *   00000004   i2c.obj (.cinit)
+                 [ 0004009e ]  0002004f          *   00000001   --HOLE-- [fill = 0]
 
 vectors      0     0004fe00  [ 00027f00 ] 00000100          *   
                    0004fe00  [ 00027f00 ] 00000100          *   rts55x.lib : vectors.obj (vectors)
@@ -89,21 +89,21 @@ byte addr   word addr   name
 ffffffff                .bss
 ffffffff                .data
 ffffffff                .text
-00020958                C$$EXIT
-0002024a                _AIC3204_rget
-00020295                _AIC3204_rset
-0002054e                _EVM5515_GPIO_getInput
-00020442                _EVM5515_GPIO_init
-00020446                _EVM5515_GPIO_setDirection
-000204d1                _EVM5515_GPIO_setOutput
-0002082d                _EVM5515_init
-000207e7                _EVM5515_wait
-0002081b                _EVM5515_waitusec
-000205c5                _I2C_close
-000205a6                _I2C_init
-00020656                _I2C_read
-000205ce                _I2C_reset
-000205dc                _I2C_write
+00020b7c                C$$EXIT
+00020000                _AIC3204_rget
+0002004b                _AIC3204_rset
+0002088a                _EVM5515_GPIO_getInput
+0002077e                _EVM5515_GPIO_init
+00020782                _EVM5515_GPIO_setDirection
+0002080d                _EVM5515_GPIO_setOutput
+00020a51                _EVM5515_init
+00020a0b                _EVM5515_wait
+00020a3f                _EVM5515_waitusec
+00020901                _I2C_close
+000208e2                _I2C_init
+00020992                _I2C_read
+0002090a                _I2C_reset
+00020918                _I2C_write
 0004fe00                _Reset
             00001060    __STACK_END
 00002000                __STACK_SIZE
@@ -119,31 +119,31 @@ ffffffff                ___end__
 ffffffff                ___etext__
 ffffffff                ___pinit__
 ffffffff                ___text__
-00020888                __args_main
-            0000189c    __cleanup_ptr
-            0000189e    __dtors_ptr
-            00001898    __lock
-00020955                __nop
-0002094d                __register_lock
-00020945                __register_unlock
+00020aac                __args_main
+            0000189a    __cleanup_ptr
+            0000189c    __dtors_ptr
+            00001896    __lock
+00020b79                __nop
+00020b71                __register_lock
+00020b69                __register_unlock
             00000060    __stack
             00001060    __sysstack
-            0000189a    __unlock
-00020957                _abort
-000202b7                _aic3204_mic
-00020000                _aic3204_tone_headphone
-0002083b                _auto_init
-00020911                _c_int00
-            00001893    _data1
-            00001894    _data2
-            00001895    _data3
-            00001896    _data4
-000208d3                _exit
+            00001898    __unlock
+00020b7b                _abort
+000201e5                _aic3204_mic
+0002006d                _aic3204_sin
+00020370                _aic3204_tone_headphone
+00020a5f                _auto_init
+00020b35                _c_int00
+00020af7                _exit
             00001891    _i
-            00001897    _i2c_timeout
+            00001895    _i2c_timeout
             00001890    _j
-000206cf                _main
+            00001893    _left
+000205ba                _main
+            00001894    _right
             00001892    _sample
+            00001860    _sinetable
 ffffffff                binit
             00020000    cinit
 ffffffff                edata
@@ -166,44 +166,44 @@ byte addr   word addr   name
 00002000                __STACK_SIZE
             00001060    __STACK_END
             00001060    __sysstack
+            00001860    _sinetable
             00001890    _j
             00001891    _i
             00001892    _sample
-            00001893    _data1
-            00001894    _data2
-            00001895    _data3
-            00001896    _data4
-            00001897    _i2c_timeout
-            00001898    __lock
-            0000189a    __unlock
-            0000189c    __cleanup_ptr
-            0000189e    __dtors_ptr
-00020000                _aic3204_tone_headphone
-0002024a                _AIC3204_rget
-00020295                _AIC3204_rset
-000202b7                _aic3204_mic
-00020442                _EVM5515_GPIO_init
-00020446                _EVM5515_GPIO_setDirection
-000204d1                _EVM5515_GPIO_setOutput
-0002054e                _EVM5515_GPIO_getInput
-000205a6                _I2C_init
-000205c5                _I2C_close
-000205ce                _I2C_reset
-000205dc                _I2C_write
-00020656                _I2C_read
-000206cf                _main
-000207e7                _EVM5515_wait
-0002081b                _EVM5515_waitusec
-0002082d                _EVM5515_init
-0002083b                _auto_init
-00020888                __args_main
-000208d3                _exit
-00020911                _c_int00
-00020945                __register_unlock
-0002094d                __register_lock
-00020955                __nop
-00020957                _abort
-00020958                C$$EXIT
+            00001893    _left
+            00001894    _right
+            00001895    _i2c_timeout
+            00001896    __lock
+            00001898    __unlock
+            0000189a    __cleanup_ptr
+            0000189c    __dtors_ptr
+00020000                _AIC3204_rget
+0002004b                _AIC3204_rset
+0002006d                _aic3204_sin
+000201e5                _aic3204_mic
+00020370                _aic3204_tone_headphone
+000205ba                _main
+0002077e                _EVM5515_GPIO_init
+00020782                _EVM5515_GPIO_setDirection
+0002080d                _EVM5515_GPIO_setOutput
+0002088a                _EVM5515_GPIO_getInput
+000208e2                _I2C_init
+00020901                _I2C_close
+0002090a                _I2C_reset
+00020918                _I2C_write
+00020992                _I2C_read
+00020a0b                _EVM5515_wait
+00020a3f                _EVM5515_waitusec
+00020a51                _EVM5515_init
+00020a5f                _auto_init
+00020aac                __args_main
+00020af7                _exit
+00020b35                _c_int00
+00020b69                __register_unlock
+00020b71                __register_lock
+00020b79                __nop
+00020b7b                _abort
+00020b7c                C$$EXIT
             00020000    ___cinit__
             00020000    cinit
 0004fe00                _Reset
