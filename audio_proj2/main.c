@@ -20,10 +20,15 @@
 
 Int16 j, i = 0;
 Int16 sample, left, right;
-Int16 out_left, out_right;
+Int16 out_left = 0, out_right = 0;
 
 Int16 arrayLeft[48];
 Int16 arrayRight[48];
+
+Int16 arrayLeft_delay[4800] = {0};
+Int16 arrayRight_delay[4800] = {0};
+
+Int16 index_delay = 0;
 
 Int16 index1 = 0;
 Int16 delay_ind1 = 0;
@@ -59,6 +64,46 @@ Int16 reverb_left(Int16 left_ch, Int16 delay) {
 }
 
 Int16 reverb_right(Int16 right_ch, Int16 delay) {
+
+	Int16 buf = 0;
+	Int16 ret_right_ch = 0;
+
+	arrayRight[index2] = right_ch;
+
+	delay_ind2 = (delay + index2 -1) % delay;
+
+	buf = arrayRight[delay_ind2];
+
+	ret_right_ch = right_ch + buf;
+
+	index2 = (index2 + 1) % delay;
+
+	return ret_right_ch;
+
+}
+
+Int16 chorus_left(Int16 left_ch, Int16 voices,  Int16 chorus_width, Int16 shift) {
+
+	Int16 buf = 0;
+	Int16 ret_left_ch = 0;
+	Int16 v;
+
+	arrayLeft[index1] = left_ch / voices;
+
+	for (v = 1; v < voices; v++) {
+
+		Int16 accumulator = 0;
+
+		delay_ind1 = shift + 20*v + (chorus_width);
+
+
+	}
+
+	return ret_left_ch;
+
+}
+
+Int16 chorus_right(Int16 right_ch, Int16 delay) {
 
 	Int16 buf = 0;
 	Int16 ret_right_ch = 0;
@@ -119,25 +164,37 @@ void main(void) {
 	aic3204_stereo_in1();
 
 	for (i = 0; i < 5; i++) {
-		for (j = 0; j < 100000; j++) {
-			for (sample = 0; sample < 48; sample++) {
+		for (j = 0; j < 1000; j++) {
+			for (sample = 0; sample < 4800; sample++) {
 
 				/* Read Digital audio */
 				while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
 						left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
 						right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
 
-						out_left =  reverb_left(left, 48);
-						out_right =  reverb_right(right, 48);
+						arrayLeft_delay[sample] = left;
+						arrayRight_delay[sample] = right;
+
+						index_delay = (4800 + sample - 240) % 4800;
+
+
+						//out_left = (arrayLeft_delay[index_delay]); //+ (left / 2) ;
+						out_right = arrayRight_delay[index_delay]; //+ (right / 2);
+
+						out_left = left;
+						//out_right = right;
+
+						//out_left =  reverb_left(left, 48);
+						//out_right =  reverb_right(right, 48);
 
 
 				/* Write Digital audio */
 				while ((Xmit & I2S2_IR) == 0); // Wait for receive interrupt to be pending
-					//I2S2_W0_MSW_W = out_left;  // 16 bit left channel transmit audio data
-					//I2S2_W1_MSW_W = out_right;// 16 bit right channel transmit audio data
+					I2S2_W0_MSW_W = out_left;  // 16 bit left channel transmit audio data
+					I2S2_W1_MSW_W = out_right;// 16 bit right channel transmit audio data
 
-					I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
-					I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
+					//I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
+					//I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
 
 		}
 	}
