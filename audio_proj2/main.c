@@ -10,7 +10,8 @@
 #include "i2s.h"
 #include "stdio.h"
 
-/* Pre-generated sine wave data, 16-bit signed samples */Int16 sinetable[48] = {
+/* Pre-generated sine wave data, 16-bit signed samples */
+Int16 sinetable[48] = {
 		0x0000, 0x10b4, 0x2120, 0x30fb, 0x3fff, 0x4dea, 0x5a81, 0x658b, 0x6ed8,
 		0x763f, 0x7ba1, 0x7ee5, 0x7ffd, 0x7ee5, 0x7ba1, 0x76ef, 0x6ed8, 0x658b,
 		0x5a81, 0x4dea, 0x3fff, 0x30fb, 0x2120, 0x10b4, 0x0000, 0xef4c, 0xdee0,
@@ -20,21 +21,18 @@
 
 Int16 j, i = 0;
 Int16 sample, left, right;
+
+//отсчеты после поимененого эффекта
 Int16 out_left = 0, out_right = 0;
 
-Int16 arrayLeft[48];
-Int16 arrayRight[48];
+Int16 array_size = 4800;
 
 Int16 arrayLeft_delay[4800] = {0};
 Int16 arrayRight_delay[4800] = {0};
 
-Int16 index_delay = 0;
-
-Int16 index1 = 0;
-Int16 delay_ind1 = 0;
-
-Int16 index2 = 0;
-Int16 delay_ind2 = 0;
+Int16 index_delay = 0; //вычисляемая задержка
+Int16 accumulator_left = 0; //аккумулятор для левого сигнала
+Int16 accumulator_right = 0; //аккумулятор для правого сигнала
 
 #define Rcv 0x08
 #define Xmit 0x20
@@ -42,85 +40,44 @@ Int16 delay_ind2 = 0;
 extern Int16 aic3204_mic();
 extern Int16 aic3204_stereo_in1();
 extern Int16 aic3204_sin();
-extern Int16 aic3204_read();
 
-Int16 reverb_left(Int16 left_ch, Int16 delay) {
+void chorus_effect(Int16 left_ch, Int16 right_ch, Int16 voices, Int16 chorus_width) {
 
-	Int16 buf = 0;
-	Int16 ret_left_ch = 0;
+	Int16 v = 0; //счетчик голосов
 
-	arrayLeft[index1] = left_ch;
+	arrayLeft_delay[sample] = left_ch; //буфер задержки с отсчетами левого канала
+	arrayRight_delay[sample] = right_ch; //буфер задержки с отсчетами правого канала
 
-	delay_ind1 = (delay + index1 -1) % delay;
-
-	buf = arrayLeft[delay_ind1];
-
-	ret_left_ch = left_ch + buf;
-
-	index1 = (index1 + 1) % delay;
-
-	return ret_left_ch;
-
-}
-
-Int16 reverb_right(Int16 right_ch, Int16 delay) {
-
-	Int16 buf = 0;
-	Int16 ret_right_ch = 0;
-
-	arrayRight[index2] = right_ch;
-
-	delay_ind2 = (delay + index2 -1) % delay;
-
-	buf = arrayRight[delay_ind2];
-
-	ret_right_ch = right_ch + buf;
-
-	index2 = (index2 + 1) % delay;
-
-	return ret_right_ch;
-
-}
-
-Int16 chorus_left(Int16 left_ch, Int16 voices,  Int16 chorus_width, Int16 shift) {
-
-	Int16 buf = 0;
-	Int16 ret_left_ch = 0;
-	Int16 v;
-
-	arrayLeft[index1] = left_ch / voices;
+	out_left = left_ch;
+	out_right = right_ch;
 
 	for (v = 1; v < voices; v++) {
 
-		Int16 accumulator = 0;
+		//обнуляем аккумуляторы
+		accumulator_left = 0;
+		accumulator_right = 0;
 
-		delay_ind1 = shift + 20*v + (chorus_width);
+		//находим номер отсчета в буфере задержки
+		index_delay = (array_size + sample - (chorus_width*v)) % array_size;
 
+		//суммируем отсчеты
+		accumulator_left += arrayLeft_delay[index_delay];
+		accumulator_right += arrayRight_delay[index_delay];
 
 	}
 
-	return ret_left_ch;
+	//суммируем с текущим значением отсчета
+	out_left += accumulator_left;
+	out_right += accumulator_right;
+
+	//делим на количество голосов
+	//для того чтобы не было
+	//перегрузки звука
+	out_left = out_left / voices;
+	out_right = out_right / voices;
 
 }
 
-Int16 chorus_right(Int16 right_ch, Int16 delay) {
-
-	Int16 buf = 0;
-	Int16 ret_right_ch = 0;
-
-	arrayRight[index2] = right_ch;
-
-	delay_ind2 = (delay + index2 -1) % delay;
-
-	buf = arrayRight[delay_ind2];
-
-	ret_right_ch = right_ch + buf;
-
-	index2 = (index2 + 1) % delay;
-
-	return ret_right_ch;
-
-}
 
 void main(void) {
 	/* Initialize BSL */
@@ -165,33 +122,20 @@ void main(void) {
 
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < 1000; j++) {
-			for (sample = 0; sample < 4800; sample++) {
+			for (sample = 0; sample < array_size; sample++) {
 
 				/* Read Digital audio */
 				while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
-						left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
-						right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
+				left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
+				right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
 
-						arrayLeft_delay[sample] = left;
-						arrayRight_delay[sample] = right;
-
-						index_delay = (4800 + sample - 240) % 4800;
-
-
-						//out_left = (arrayLeft_delay[index_delay]); //+ (left / 2) ;
-						out_right = arrayRight_delay[index_delay]; //+ (right / 2);
-
-						out_left = left;
-						//out_right = right;
-
-						//out_left =  reverb_left(left, 48);
-						//out_right =  reverb_right(right, 48);
+				chorus_effect(left, right, 4, 440);
 
 
 				/* Write Digital audio */
 				while ((Xmit & I2S2_IR) == 0); // Wait for receive interrupt to be pending
-					I2S2_W0_MSW_W = out_left;  // 16 bit left channel transmit audio data
-					I2S2_W1_MSW_W = out_right;// 16 bit right channel transmit audio data
+				I2S2_W0_MSW_W = out_left;  // 16 bit left channel transmit audio data
+				I2S2_W1_MSW_W = out_right;// 16 bit right channel transmit audio data
 
 					//I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
 					//I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
@@ -206,3 +150,4 @@ c5515_GPIO_setOutput(GPIO26, 0);
 
 SW_BREAKPOINT;
 }
+
