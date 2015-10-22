@@ -99,7 +99,7 @@ void main(void) {
 	I2S2_ICMR = 0x0028;    // Enable interrupts
 	I2S2_CR = 0x8012;// 16-bit word, Master, enable I2C
 
-	/*(  aic3204_sin();
+	/* aic3204_sin();
 
 
 	 for ( i = 0 ; i < 5 ; i++ )
@@ -118,6 +118,7 @@ void main(void) {
 	 }*/
 
 	// Режим «с микрофона на наушники»
+	//aic3204_mic()
 	aic3204_stereo_in1();
 
 	for (i = 0; i < 5; i++) {
