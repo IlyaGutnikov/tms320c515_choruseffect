@@ -5,15 +5,15 @@ aic3204.obj: ../C5515.h
 aic3204.obj: ../gpio.h
 aic3204.obj: ../i2c.h
 aic3204.obj: ../i2s.h
-aic3204.obj: E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/stdio.h
-aic3204.obj: E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/linkage.h
-aic3204.obj: E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/stdarg.h
+aic3204.obj: C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/stdio.h
+aic3204.obj: C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/linkage.h
+aic3204.obj: C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/stdarg.h
 
 ../aic3204.c: 
 ../C5515.h: 
 ../gpio.h: 
 ../i2c.h: 
 ../i2s.h: 
-E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/stdio.h: 
-E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/linkage.h: 
-E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include/stdarg.h: 
+C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/stdio.h: 
+C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/linkage.h: 
+C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include/stdarg.h: 

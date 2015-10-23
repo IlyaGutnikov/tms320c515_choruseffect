@@ -130,7 +130,9 @@ void main(void) {
 				left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
 				right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
 
-				chorus_effect(left, right, 4, 440);
+				chorus_effect(left, right, 2, 4040);
+
+				//показать 4 / 40; 4 / 440; 2 / 4040
 
 
 				/* Write Digital audio */

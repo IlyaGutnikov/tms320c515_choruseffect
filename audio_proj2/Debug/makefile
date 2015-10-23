@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1
+CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c5500_4.4.1
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
@@ -119,7 +119,7 @@ all: audio_proj2.out
 audio_proj2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C5500 Linker'
-	"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -v5515 --memory_model=large -g --define=c5515 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"audio_proj2.map" --stack_size=0x200 --heap_size=0x400 -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"E:/ti_ccs5/ccsv5/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="audio_proj2_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "audio_proj2.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/c5500_4.4.1/bin/cl55" -v5515 --memory_model=large -g --define=c5515 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"audio_proj2.map" --stack_size=0x200 --heap_size=0x400 -i"C:/ti/ccsv5/tools/compiler/c5500_4.4.1/lib" -i"C:/ti/ccsv5/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="audio_proj2_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "audio_proj2.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
