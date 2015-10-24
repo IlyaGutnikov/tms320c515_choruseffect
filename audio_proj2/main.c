@@ -1,8 +1,3 @@
-/*
- *  Copyright 2009 by Spectrum Digital Incorporated.
- *  All rights reserved. Property of Spectrum Digital Incorporated.
- */
-
 #define AIC3204_I2C_ADDR 0x18
 #include "C5515.h"
 #include "gpio.h"
@@ -21,6 +16,9 @@ Int16 sinetable[48] = {
 
 Int16 j, i = 0;
 Int16 sample, left, right;
+
+Int16 chorus_voices = 2;
+Int16 chorus_width = 4040;
 
 //отсчеты после поимененого эффекта
 Int16 out_left = 0, out_right = 0;
@@ -99,7 +97,7 @@ void main(void) {
 	I2S2_ICMR = 0x0028;    // Enable interrupts
 	I2S2_CR = 0x8012;// 16-bit word, Master, enable I2C
 
-	/* aic3204_sin();
+	/*aic3204_sin();
 
 
 	 for ( i = 0 ; i < 5 ; i++ )
@@ -118,34 +116,39 @@ void main(void) {
 	 }*/
 
 	// Режим «с микрофона на наушники»
-	//aic3204_mic()
+	//aic3204_mic();
+
+	//Режим стерео-входа
 	aic3204_stereo_in1();
 
+	//необходимо чтобы 5*1000*sample было кратно 240 000
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < 1000; j++) {
 			for (sample = 0; sample < array_size; sample++) {
 
-				/* Read Digital audio */
 				while ((Rcv & I2S2_IR) == 0); // Wait for receive interrupt to be pending
 				left = I2S2_W0_MSW_R; // 16 bit left channel received audio data
 				right = I2S2_W1_MSW_R;// 16 bit right channel received audio data
 
-				chorus_effect(left, right, 2, 4040);
+				chorus_effect(left, right, chorus_voices, chorus_width); //функция эффекта
 
 				//показать 4 / 40; 4 / 440; 2 / 4040
 
-
-				/* Write Digital audio */
 				while ((Xmit & I2S2_IR) == 0); // Wait for receive interrupt to be pending
+
+				//выход с эффектом
 				I2S2_W0_MSW_W = out_left;  // 16 bit left channel transmit audio data
 				I2S2_W1_MSW_W = out_right;// 16 bit right channel transmit audio data
 
-					//I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
-					//I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
+				//прямой выход
+				//I2S2_W0_MSW_W = left;  // 16 bit left channel transmit audio data
+				//I2S2_W1_MSW_W = right;// 16 bit right channel transmit audio data
 
 		}
 	}
 }
+
+
 /* Отключаем I2S */
 I2S0_CR = 0x00;
 
@@ -153,4 +156,3 @@ c5515_GPIO_setOutput(GPIO26, 0);
 
 SW_BREAKPOINT;
 }
-
